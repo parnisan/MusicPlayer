@@ -16,7 +16,7 @@ public class GenreFilter implements TrackFilter {
     @Override
     public List<Track> apply(List<Track> tracks) {
         List<Track> result = new java.util.ArrayList<>();
-        for (var track : tracks) {
+        for (Track track : tracks) {
             if (track.getGenre().equalsIgnoreCase(genre)) {
                 result.add(track);
             }

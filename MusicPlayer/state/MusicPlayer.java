@@ -60,11 +60,11 @@ public class MusicPlayer {
     }
 
     public PlayerState getCurrentState() { return currentState; }
-    public String getStateName()         { return currentState.getName(); }
+    public String getStateName() { return currentState.getName(); }
 
-    public List<Track> getQueue()        { return queue; }
-    public int getCurrentIndex()         { return currentIndex; }
-    public int getTrackProgress()        { return trackProgress; }
+    public List<Track> getQueue() { return queue; }
+    public int getCurrentIndex() { return currentIndex; }
+    public int getTrackProgress() { return trackProgress; }
 
     public void setQueue(List<Track> newQueue) {
         this.queue = new ArrayList<>(newQueue);
@@ -72,10 +72,10 @@ public class MusicPlayer {
         this.trackProgress = 0;
     }
 
-    public void setCurrentIndex(int index)     { this.currentIndex = index; }
+    public void setCurrentIndex(int index) { this.currentIndex = index; }
     public void setTrackProgress(int progress) { this.trackProgress = progress; }
 
-    public PlaybackMode getPlaybackMode()          { return playbackMode; }
+    public PlaybackMode getPlaybackMode() { return playbackMode; }
     public void setPlaybackMode(PlaybackMode mode) { this.playbackMode = mode; }
 
     public void addObserver(PlayerObserver observer) {

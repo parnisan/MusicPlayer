@@ -43,7 +43,7 @@ public class Playlist implements PlaylistComponent, Iterable<Track> {
     @Override
     public int getTotalDuration() {
         int total = 0;
-        for (var child : children) {
+        for (PlaylistComponent child : children) {
             total += child.getTotalDuration();
         }
         return total;
@@ -52,8 +52,8 @@ public class Playlist implements PlaylistComponent, Iterable<Track> {
     @Override
     public void print(String indent) {
         int dur = getTotalDuration();
-        System.out.printf("%s▶ [%s] (%d:%02d)%n", indent, name, dur / 60, dur % 60);
-        for (var child : children) {
+        System.out.println(indent + "[" + name + "] " + dur / 60 + ":" + String.format("%02d", dur % 60));
+        for (PlaylistComponent child : children) {
             child.print(indent + "  ");
         }
     }
@@ -61,7 +61,7 @@ public class Playlist implements PlaylistComponent, Iterable<Track> {
     @Override
     public void collectContainers(List<Playlist> result) {
         result.add(this);
-        for (var child : children) {
+        for (PlaylistComponent child : children) {
             child.collectContainers(result);
         }
     }
@@ -86,11 +86,12 @@ public class Playlist implements PlaylistComponent, Iterable<Track> {
                         stack.pop();
                     } else {
                         PlaylistComponent component = top.next();
-                        component.asTrack().ifPresentOrElse(
-                                track -> nextTrack = track,
-                                () -> stack.push(
-                                        component.getChildren().iterator())
-                        );
+                        Track t = component.asTrack();
+                        if (t != null) {
+                            nextTrack = t;
+                        } else {
+                            stack.push(component.getChildren().iterator());
+                        }
                     }
                 }
             }

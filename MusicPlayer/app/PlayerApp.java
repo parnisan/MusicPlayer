@@ -48,7 +48,11 @@ public class PlayerApp {
         Track t5 = new Track.Builder("Take Five", "Dave Brubeck")
                 .genre("Jazz").durationSeconds(10).bitrate(320).build();
 
-        library.addAll(List.of(t1, t2, t3, t4, t5));
+        library.add(t1);
+        library.add(t2);
+        library.add(t3);
+        library.add(t4);
+        library.add(t5);
 
         Playlist rock = new Playlist("Rock");
         rock.add(new TrackItem(t1));

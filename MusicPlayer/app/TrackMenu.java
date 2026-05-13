@@ -19,8 +19,7 @@ public class TrackMenu {
     public void open() {
         boolean inMenu = true;
         while (inMenu) {
-            System.out.println();
-            System.out.println("--- Треки ---");
+            System.out.println("Треки");
             System.out.println("1 - Добавить трек");
             System.out.println("2 - Показать все треки");
             System.out.println("0 - Назад");
@@ -64,7 +63,7 @@ public class TrackMenu {
         List<Track> library = app.getLibrary();
         if (library.isEmpty()) { System.out.println("Библиотека пуста."); return; }
         for (int i = 0; i < library.size(); i++) {
-            System.out.printf("  %d. %s%n", i + 1, library.get(i));
+            System.out.println((i + 1) + ". " + library.get(i));
         }
     }
 }

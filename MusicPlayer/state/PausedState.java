@@ -7,20 +7,19 @@ public class PausedState implements PlayerState {
 
     @Override
     public void play(MusicPlayer player) {
-        System.out.println("[Плеер] Возобновление с "
-                + formatTime(player.getTrackProgress()) + ".");
+        System.out.println("Возобновление с " + formatTime(player.getTrackProgress()));
         player.setState(new PlayingState());
         player.getCurrentState().play(player);
     }
 
     @Override
     public void pause(MusicPlayer player) {
-        System.out.println("[Плеер] Уже на паузе.");
+        System.out.println("Уже на паузе.");
     }
 
     @Override
     public void stop(MusicPlayer player) {
-        System.out.println("[Плеер] Остановка. Прогресс сброшен.");
+        System.out.println("Остановка.");
         player.setTrackProgress(0);
         player.setState(new StoppedState());
     }

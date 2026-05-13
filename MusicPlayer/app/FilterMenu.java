@@ -30,8 +30,7 @@ public class FilterMenu {
             return;
         }
 
-        System.out.println();
-        System.out.println("--- Фильтрация ---");
+        System.out.println("Фильтрация");
         System.out.println("1 - По жанру");
         System.out.println("2 - По исполнителю");
         System.out.println("3 - Сортировка по длительности");
@@ -55,7 +54,7 @@ public class FilterMenu {
 
         System.out.println("Результат (" + result.size() + "):");
         for (int i = 0; i < result.size(); i++) {
-            System.out.printf("  %d. %s%n", i + 1, result.get(i));
+            System.out.println((i + 1) + ". " + result.get(i));
         }
 
         System.out.print("Загрузить результат в очередь? (д/н): ");
@@ -65,23 +64,26 @@ public class FilterMenu {
         }
     }
 
-
     private TrackFilter buildFilter(String choice) {
-        return switch (choice) {
-            case "1" -> {
+        TrackFilter filter = null;
+        switch (choice) {
+            case "1":
                 System.out.print("Жанр: ");
-                yield new GenreFilter(scanner.nextLine().trim());
-            }
-            case "2" -> {
+                filter = new GenreFilter(scanner.nextLine().trim());
+                break;
+            case "2":
                 System.out.print("Исполнитель: ");
-                yield new ArtistFilter(scanner.nextLine().trim());
-            }
-            case "3" -> new SortByDurationFilter();
-            case "4" -> new SortByArtistFilter();
-            default  -> {
+                filter = new ArtistFilter(scanner.nextLine().trim());
+                break;
+            case "3":
+                filter = new SortByDurationFilter();
+                break;
+            case "4":
+                filter = new SortByArtistFilter();
+                break;
+            default:
                 System.out.println("Неизвестная команда.");
-                yield null;
-            }
-        };
+        }
+        return filter;
     }
 }

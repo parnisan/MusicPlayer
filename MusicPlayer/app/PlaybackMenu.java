@@ -33,8 +33,7 @@ public class PlaybackMenu {
     public void open() {
         boolean inMenu = true;
         while (inMenu) {
-            System.out.println();
-            System.out.println("--- Воспроизведение ---");
+            System.out.println("Воспроизведение");
             printStatus();
             System.out.println("1 - Play");
             System.out.println("2 - Stop");
@@ -58,25 +57,23 @@ public class PlaybackMenu {
         }
     }
 
-
     private void printStatus() {
         System.out.println("Режим: " + player.getPlaybackMode().getName()
-                + " | Состояние: " + player.getStateName()
-                + " | Очередь: " + player.getQueue().size());
+                + " Состояние: " + player.getStateName()
+                + " Треков в очереди: " + player.getQueue().size());
         int idx = player.getCurrentIndex();
         List<Track> queue = player.getQueue();
         if (idx >= 0 && idx < queue.size()) {
             Track track = queue.get(idx);
             System.out.println("Трек: " + track
-                    + " [" + formatTime(player.getTrackProgress())
-                    + "/" + formatTime(track.getDurationSeconds()) + "]");
+                    + " " + formatTime(player.getTrackProgress())
+                    + "/" + formatTime(track.getDurationSeconds()));
         }
     }
 
     private String formatTime(int seconds) {
         return String.format("%d:%02d", seconds / 60, seconds % 60);
     }
-
 
     private void pressNext() {
         if (player.getQueue().isEmpty()) {
@@ -97,7 +94,6 @@ public class PlaybackMenu {
         player.previous();
     }
 
-
     private void changeMode() {
         System.out.println("1 - Последовательный");
         System.out.println("2 - Случайный");
@@ -117,12 +113,10 @@ public class PlaybackMenu {
         System.out.println("Режим: " + player.getPlaybackMode().getName());
     }
 
-
     private void manageQueue() {
         boolean inMenu = true;
         while (inMenu) {
-            System.out.println();
-            System.out.println("--- Очередь ---");
+            System.out.println("Очередь");
             showQueue();
             System.out.println("1 - Удалить трек");
             System.out.println("2 - Добавить трек из библиотеки");
@@ -148,14 +142,19 @@ public class PlaybackMenu {
 
     private void showQueue() {
         List<Track> queue = player.getQueue();
-        if (queue.isEmpty()) { System.out.println("Очередь пуста."); return; }
+        if (queue.isEmpty()) {
+            System.out.println("Очередь пуста.");
+            return;
+        }
         int current = player.getCurrentIndex();
         for (int i = 0; i < queue.size(); i++) {
-            String marker = (i == current) ? " ▶" : "  ";
-            System.out.printf("%s %d. %s%n", marker, i + 1, queue.get(i));
+            if (i == current) {
+                System.out.println((i + 1) + ". " + queue.get(i) + " <");
+            } else {
+                System.out.println((i + 1) + ". " + queue.get(i));
+            }
         }
     }
-
 
     private void removeFromQueue() {
         List<Track> queue = player.getQueue();
@@ -174,7 +173,7 @@ public class PlaybackMenu {
         List<Track> library = app.getLibrary();
         if (library.isEmpty()) { System.out.println("Библиотека пуста."); return; }
         for (int i = 0; i < library.size(); i++) {
-            System.out.printf("  %d. %s%n", i + 1, library.get(i));
+            System.out.println((i + 1) + ". " + library.get(i));
         }
         System.out.print("Номер трека (0 - отмена): ");
         try {
@@ -194,7 +193,8 @@ public class PlaybackMenu {
             int idx = Integer.parseInt(scanner.nextLine().trim()) - 1;
             int newIdx = idx + direction;
             if (idx < 0 || idx >= queue.size() || newIdx < 0 || newIdx >= queue.size()) {
-                System.out.println("Невозможно переместить."); return;
+                System.out.println("Невозможно переместить.");
+                return;
             }
             commandExecutor.executeCommand(new MoveTrackCommand(player, idx, direction));
         } catch (NumberFormatException e) {

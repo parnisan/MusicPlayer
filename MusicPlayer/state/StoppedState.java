@@ -8,7 +8,7 @@ public class StoppedState implements PlayerState {
     @Override
     public void play(MusicPlayer player) {
         if (player.getQueue().isEmpty()) {
-            System.out.println("[Плеер] Очередь пуста. Загрузите плейлист.");
+            System.out.println("Очередь пуста. Загрузите плейлист.");
             return;
         }
         player.setTrackProgress(0);
@@ -19,11 +19,11 @@ public class StoppedState implements PlayerState {
 
     @Override
     public void pause(MusicPlayer player) {
-        System.out.println("[Плеер] Нельзя поставить на паузу — воспроизведение не запущено.");
+        System.out.println("Нельзя поставить на паузу - воспроизведение не запущено.");
     }
 
     @Override
     public void stop(MusicPlayer player) {
-        System.out.println("[Плеер] Уже остановлен.");
+        System.out.println("Уже остановлен.");
     }
 }

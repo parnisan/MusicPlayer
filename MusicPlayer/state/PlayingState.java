@@ -1,5 +1,7 @@
 package MusicPlayer.state;
 
+import MusicPlayer.builder.Track;
+
 import java.io.IOException;
 
 public class PlayingState implements PlayerState {
@@ -21,7 +23,6 @@ public class PlayingState implements PlayerState {
 
                 if (player.getTrackProgress() >= currentTrackDuration(player)) {
                     if (!player.next()) {
-                        System.out.println("\n══════════════════════════════════════");
                         System.out.println("Конец плейлиста.");
                         player.stop();
                         return;
@@ -29,7 +30,6 @@ public class PlayingState implements PlayerState {
                 }
 
                 printProgress(player);
-
 
                 if (System.in.available() > 0) {
                     System.in.read();
@@ -39,22 +39,21 @@ public class PlayingState implements PlayerState {
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            System.out.println("[Плеер] Воспроизведение прервано.");
+            System.out.println("Воспроизведение прервано.");
         } catch (IOException e) {
-            System.out.println("[Плеер] Ошибка ввода.");
+            System.out.println("Ошибка ввода.");
         }
     }
 
     @Override
     public void pause(MusicPlayer player) {
-        System.out.println("[Плеер] Пауза. Прогресс сохранён: "
-                + formatTime(player.getTrackProgress()));
+        System.out.println("Пауза. Прогресс: " + formatTime(player.getTrackProgress()));
         player.setState(new PausedState());
     }
 
     @Override
     public void stop(MusicPlayer player) {
-        System.out.println("[Плеер] Остановка.");
+        System.out.println("Остановка.");
         player.setTrackProgress(0);
         player.setState(new StoppedState());
     }
@@ -64,16 +63,10 @@ public class PlayingState implements PlayerState {
     }
 
     private void printProgress(MusicPlayer player) {
-        var track = player.getQueue().get(player.getCurrentIndex());
-        System.out.println("\n══════════════════════════════════════");
-        System.out.println("▶ " + track.getTitle() + " — " + track.getArtist());
-        System.out.println("  " + formatTime(player.getTrackProgress())
-                + " / " + formatTime(track.getDurationSeconds()));
-        System.out.println("  Режим: " + player.getPlaybackMode().getName()
-                + " | Трек " + (player.getCurrentIndex() + 1)
-                + "/" + player.getQueue().size());
-        System.out.println("══════════════════════════════════════");
-        System.out.println("[Enter — пауза]");
+        Track track = player.getQueue().get(player.getCurrentIndex());
+        System.out.println(track.getTitle() + " - " + track.getArtist()
+                + " " + formatTime(player.getTrackProgress())
+                + "/" + formatTime(track.getDurationSeconds()));
     }
 
     private String formatTime(int seconds) {

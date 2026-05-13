@@ -3,7 +3,6 @@ package MusicPlayer.filter;
 import MusicPlayer.builder.Track;
 
 import java.util.List;
-import java.util.Objects;
 
 public class TrackFilterContext {
 
@@ -14,7 +13,7 @@ public class TrackFilterContext {
     }
 
     public List<Track> apply(List<Track> tracks) {
-        if (Objects.isNull(strategy)) {
+        if (strategy == null) {
             throw new IllegalStateException("TrackFilter не установлен.");
         }
         return strategy.apply(tracks);

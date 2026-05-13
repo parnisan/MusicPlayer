@@ -27,8 +27,7 @@ public class PlaylistMenu {
     public void open() {
         boolean inMenu = true;
         while (inMenu) {
-            System.out.println();
-            System.out.println("--- Плейлисты ---");
+            System.out.println("Плейлисты");
             System.out.println("1 - Моя библиотека");
             System.out.println("2 - Добавить трек в плейлист");
             System.out.println("3 - Создать вложенный плейлист");
@@ -55,13 +54,13 @@ public class PlaylistMenu {
 
     private Playlist choosePlaylist(String prompt) {
         List<Playlist> all = collectAllPlaylists();
-        System.out.println("Доступные плейлисты:");
+        System.out.println("Плейлисты:");
         for (int i = 0; i < all.size(); i++) {
             Playlist p = all.get(i);
             int dur = p.getTotalDuration();
-            System.out.printf("  %d. %s (%d:%02d)%n", i + 1, p.getName(), dur / 60, dur % 60);
+            System.out.println((i + 1) + ". " + p.getName() + " " + dur / 60 + ":" + String.format("%02d", dur % 60));
         }
-        System.out.println("  0. Отмена");
+        System.out.println("0. Отмена");
         System.out.print(prompt);
         try {
             int idx = Integer.parseInt(scanner.nextLine().trim()) - 1;
@@ -108,7 +107,7 @@ public class PlaylistMenu {
         if (children.isEmpty()) { System.out.println("Плейлист '" + target.getName() + "' пуст."); return; }
         System.out.println("Содержимое '" + target.getName() + "':");
         for (int i = 0; i < children.size(); i++) {
-            System.out.printf("  %d. %s%n", i + 1, children.get(i).getName());
+            System.out.println((i + 1) + ". " + children.get(i).getName());
         }
         System.out.print("Номер для удаления (0 - отмена): ");
         try {

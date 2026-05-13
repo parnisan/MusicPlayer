@@ -17,7 +17,7 @@ public class ArtistFilter implements TrackFilter {
     @Override
     public List<Track> apply(List<Track> tracks) {
         List<Track> result = new ArrayList<>();
-        for (var track : tracks) {
+        for (Track track : tracks) {
             if (track.getArtist().equalsIgnoreCase(artist)) {
                 result.add(track);
             }

@@ -10,6 +10,7 @@ public class MoveTrackCommand implements QueueCommand {
     private final MusicPlayer player;
     private final int idx;
     private final int direction;
+
     public MoveTrackCommand(MusicPlayer player, int idx, int direction) {
         this.player = player;
         this.idx = idx;

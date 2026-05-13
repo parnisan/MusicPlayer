@@ -26,10 +26,11 @@ public class PlaybackHistoryObserver implements PlayerObserver {
             System.out.println("История пуста.");
             return;
         }
-        System.out.println("--- История прослушивания ---");
+        System.out.println("История прослушивания:");
         int i = 1;
         for (Track track : history) {
-            System.out.printf("  %d. %s%n", i++, track);
+            System.out.println(i + ". " + track);
+            i++;
         }
     }
 }

@@ -2,9 +2,6 @@ package MusicPlayer.playlist;
 
 import MusicPlayer.builder.Track;
 
-import java.util.Optional;
-
-
 public class TrackItem implements PlaylistComponent {
 
     private final Track track;
@@ -14,8 +11,8 @@ public class TrackItem implements PlaylistComponent {
     }
 
     @Override
-    public Optional<Track> asTrack() {
-        return Optional.of(track);
+    public Track asTrack() {
+        return track;
     }
 
     @Override
@@ -30,7 +27,7 @@ public class TrackItem implements PlaylistComponent {
 
     @Override
     public void print(String indent) {
-        System.out.println(indent + "♪ " + track);
+        System.out.println(indent + "- " + track);
     }
 
     @Override
