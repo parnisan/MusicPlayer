@@ -2,24 +2,31 @@ package MusicPlayer.state;
 
 public class PausedState implements PlayerState {
 
+    private static final String STATE_NAME = "Пауза";
+    private static final String RESUME_PREFIX = "Возобновление с ";
+    private static final String ALREADY_PAUSED = "Уже на паузе.";
+    private static final String STOPPING = "Остановка.";
+
     @Override
-    public String getName() { return "Пауза"; }
+    public String getName() {
+        return STATE_NAME;
+    }
 
     @Override
     public void play(MusicPlayer player) {
-        System.out.println("Возобновление с " + formatTime(player.getTrackProgress()));
+        System.out.println(RESUME_PREFIX + formatTime(player.getTrackProgress()));
         player.setState(new PlayingState());
         player.getCurrentState().play(player);
     }
 
     @Override
     public void pause(MusicPlayer player) {
-        System.out.println("Уже на паузе.");
+        System.out.println(ALREADY_PAUSED);
     }
 
     @Override
     public void stop(MusicPlayer player) {
-        System.out.println("Остановка.");
+        System.out.println(STOPPING);
         player.setTrackProgress(0);
         player.setState(new StoppedState());
     }

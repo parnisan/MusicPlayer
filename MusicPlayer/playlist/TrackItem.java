@@ -2,6 +2,8 @@ package MusicPlayer.playlist;
 
 import MusicPlayer.builder.Track;
 
+import java.util.Optional;
+
 public class TrackItem implements PlaylistComponent {
 
     private final Track track;
@@ -11,8 +13,8 @@ public class TrackItem implements PlaylistComponent {
     }
 
     @Override
-    public Track asTrack() {
-        return track;
+    public Optional<Track> asTrack() {
+        return Optional.of(track);
     }
 
     @Override

@@ -8,6 +8,7 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 public class Playlist implements PlaylistComponent, Iterable<Track> {
 
@@ -86,9 +87,9 @@ public class Playlist implements PlaylistComponent, Iterable<Track> {
                         stack.pop();
                     } else {
                         PlaylistComponent component = top.next();
-                        Track t = component.asTrack();
-                        if (t != null) {
-                            nextTrack = t;
+                        Optional<Track> maybeTrack = component.asTrack();
+                        if (maybeTrack.isPresent()) {
+                            nextTrack = maybeTrack.get();
                         } else {
                             stack.push(component.getChildren().iterator());
                         }
