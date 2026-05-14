@@ -2,38 +2,29 @@ package MusicPlayer.observer;
 
 import MusicPlayer.builder.Track;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlaybackHistoryObserver implements PlayerObserver {
 
     private static final int MAX_HISTORY = 20;
-    private static final String EMPTY_HISTORY = "История пуста.";
-    private static final String HISTORY_HEADER = "История прослушивания:";
 
-    private final Deque<Track> history = new ArrayDeque<>();
+    private final List<Track> history = new ArrayList<>();
 
     @Override
     public void onTrackChanged(Track track) {
-        if (history.size() >= MAX_HISTORY) {
-            history.pollFirst();
-        }
-        history.addLast(track);
+        if (history.size() >= MAX_HISTORY) history.remove(0);
+        history.add(track);
     }
-
-    @Override
-    public void onStateChanged(String stateName) {}
 
     public void printHistory() {
         if (history.isEmpty()) {
-            System.out.println(EMPTY_HISTORY);
+            System.out.println("История пуста.");
             return;
         }
-        System.out.println(HISTORY_HEADER);
-        int i = 1;
-        for (Track track : history) {
-            System.out.println(i + ". " + track);
-            i++;
+        System.out.println("История прослушивания:");
+        for (int i = 0; i < history.size(); i++) {
+            System.out.println((i + 1) + ". " + history.get(i));
         }
     }
 }

@@ -7,21 +7,6 @@ import java.util.Scanner;
 
 public class TrackMenu {
 
-    private static final String HEADER = "Треки";
-    private static final String OPTION_ADD = "1 - Добавить трек";
-    private static final String OPTION_SHOW = "2 - Показать все треки";
-    private static final String OPTION_BACK = "0 - Назад";
-    private static final String PROMPT = "> ";
-    private static final String UNKNOWN_COMMAND = "Неизвестная команда.";
-    private static final String TITLE_PROMPT = "Название: ";
-    private static final String ARTIST_PROMPT = "Исполнитель: ";
-    private static final String GENRE_PROMPT = "Жанр (Enter - пропустить): ";
-    private static final String DURATION_PROMPT = "Длительность сек (Enter - пропустить): ";
-    private static final String BITRATE_PROMPT = "Битрейт кбит/с (Enter - пропустить): ";
-    private static final String ADDED_PREFIX = "Добавлен: ";
-    private static final String ERROR_PREFIX = "Ошибка: ";
-    private static final String EMPTY_LIBRARY = "Библиотека пуста.";
-
     private final PlayerApp app;
     private final Scanner scanner;
 
@@ -31,52 +16,59 @@ public class TrackMenu {
     }
 
     public void open() {
-        boolean inMenu = true;
-        while (inMenu) {
-            System.out.println(HEADER);
-            System.out.println(OPTION_ADD);
-            System.out.println(OPTION_SHOW);
-            System.out.println(OPTION_BACK);
-            System.out.print(PROMPT);
+        boolean inMenuFlag = true;
+        while (inMenuFlag) {
+            System.out.println("Треки");
+            System.out.println("1 - Добавить трек");
+            System.out.println("2 - Показать все треки");
+            System.out.println("0 - Назад");
+            System.out.print("> ");
 
             switch (scanner.nextLine().trim()) {
-                case "1" -> createTrack();
-                case "2" -> showLibrary();
-                case "0" -> inMenu = false;
-                default  -> System.out.println(UNKNOWN_COMMAND);
+                case "1":
+                    createTrack();
+                    break;
+                case "2":
+                    showLibrary();
+                    break;
+                case "0":
+                    inMenuFlag = false;
+                    break;
+                default:
+                    System.out.println("Неизвестная команда.");
             }
         }
     }
 
     private void createTrack() {
-        System.out.print(TITLE_PROMPT);
+        System.out.print("Название: ");
         String title = scanner.nextLine().trim();
-        System.out.print(ARTIST_PROMPT);
+        System.out.print("Исполнитель: ");
         String artist = scanner.nextLine().trim();
-        System.out.print(GENRE_PROMPT);
+        System.out.print("Жанр (Enter - пропустить): ");
         String genre = scanner.nextLine().trim();
-        System.out.print(DURATION_PROMPT);
+        System.out.print("Длительность сек (Enter - пропустить): ");
         String durStr = scanner.nextLine().trim();
-        System.out.print(BITRATE_PROMPT);
+        System.out.print("Битрейт кбит/с (Enter - пропустить): ");
         String brStr = scanner.nextLine().trim();
 
         try {
             Track.Builder b = new Track.Builder(title, artist);
-            if (!genre.isBlank())  b.genre(genre);
-            if (!durStr.isBlank()) b.durationSeconds(Integer.parseInt(durStr));
-            if (!brStr.isBlank())  b.bitrate(Integer.parseInt(brStr));
+            if (!genre.isEmpty()) b.genre(genre);
+            if (!durStr.isEmpty()) b.durationSeconds(Integer.parseInt(durStr));
+            if (!brStr.isEmpty()) b.bitrate(Integer.parseInt(brStr));
             Track track = b.build();
             app.getLibrary().add(track);
-            System.out.println(ADDED_PREFIX + track);
+            System.out.println("Добавлен: " + track);
         } catch (IllegalArgumentException e) {
-            System.out.println(ERROR_PREFIX + e.getMessage());
+            System.out.println("Ошибка: " + e.getMessage());
         }
     }
 
     public void showLibrary() {
         List<Track> library = app.getLibrary();
         if (library.isEmpty()) {
-            System.out.println(EMPTY_LIBRARY);
+            System.out.println("Библиотека пуста.");
             return;
         }
         for (int i = 0; i < library.size(); i++) {

@@ -17,13 +17,9 @@ public class ShuffleMode implements PlaybackMode {
 
     @Override
     public int nextIndex(List<Track> tracks, int currentIndex) {
-        if (tracks.size() <= 1) {
-            return 0;
-        }
-        int next;
-        do {
-            next = random.nextInt(tracks.size());
-        } while (next == currentIndex);
+        if (tracks.size() <= 1) return 0;
+        int next = random.nextInt(tracks.size() - 1);
+        if (next >= currentIndex) next++;
         return next;
     }
 

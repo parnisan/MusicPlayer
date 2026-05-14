@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface TrackFilter {
 
-    List<Track> apply(List<Track> tracks);
+    List<Track> getTracks();
 }

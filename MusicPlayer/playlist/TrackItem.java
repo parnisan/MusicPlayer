@@ -2,7 +2,8 @@ package MusicPlayer.playlist;
 
 import MusicPlayer.builder.Track;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TrackItem implements PlaylistComponent {
 
@@ -10,11 +11,6 @@ public class TrackItem implements PlaylistComponent {
 
     public TrackItem(Track track) {
         this.track = track;
-    }
-
-    @Override
-    public Optional<Track> asTrack() {
-        return Optional.of(track);
     }
 
     @Override
@@ -28,12 +24,15 @@ public class TrackItem implements PlaylistComponent {
     }
 
     @Override
+    public List<Track> getTracks() {
+        List<Track> result = new ArrayList<>();
+        result.add(track);
+        return result;
+    }
+
+    @Override
     public void print(String indent) {
         System.out.println(indent + "- " + track);
     }
 
-    @Override
-    public String toString() {
-        return "TrackItem{track=" + track + '}';
-    }
 }

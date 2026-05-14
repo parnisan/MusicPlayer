@@ -1,7 +1,5 @@
 package MusicPlayer.builder;
 
-import java.util.Objects;
-
 public class Track {
 
     private final String title;
@@ -41,32 +39,10 @@ public class Track {
 
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Track track = (Track) o;
-        return durationSeconds == track.durationSeconds &&
-                bitrate == track.bitrate &&
-                Objects.equals(title, track.title) &&
-                Objects.equals(artist, track.artist) &&
-                Objects.equals(genre, track.genre);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(title, artist, genre, durationSeconds, bitrate);
-    }
-
-    @Override
     public String toString() {
         int minutes = durationSeconds / 60;
         int seconds = durationSeconds % 60;
-
-        return artist + " - " +
-                title + " ( " +
-                genre + ", "  +
-                minutes + ":" + String.format("%02d", seconds) + ", "
-                + bitrate + " kbps )";
+        return artist + " - " +  title + " ( " +  genre + ", "  + minutes + ":" + seconds + ", " + bitrate + " kbps )";
     }
 
 
@@ -81,10 +57,10 @@ public class Track {
 
 
         public Builder(String title, String artist) {
-            if (title == null || title.isBlank()) {
+            if (title == null || title.trim().isEmpty()) {
                 throw new IllegalArgumentException("Название трека не может быть пустым");
             }
-            if (artist == null || artist.isBlank()) {
+            if (artist == null || artist.trim().isEmpty()) {
                 throw new IllegalArgumentException("Исполнитель не может быть пустым");
             }
             this.title = title;
