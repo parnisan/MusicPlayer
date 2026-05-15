@@ -8,7 +8,6 @@ import MusicPlayer.filter.SortByArtistFilter;
 import MusicPlayer.filter.SortByDurationFilter;
 import MusicPlayer.filter.TrackFilter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -28,56 +27,53 @@ public class FilterMenu {
             return;
         }
 
-        System.out.println("Фильтрация");
-        System.out.println("1 - По жанру");
-        System.out.println("2 - По исполнителю");
-        System.out.println("3 - Сортировка по длительности");
-        System.out.println("4 - Сортировка по исполнителю");
-        System.out.println("0 - Назад");
-        System.out.print("> ");
+        TrackFilter filter = new LibraryFilter(app.getLibrary());
 
-        String choice = scanner.nextLine().trim();
-        if (choice.equals("0")) return;
+        boolean filtering = true;
+        while (filtering) {
+            List<Track> current = filter.getTracks();
+            if (current.isEmpty()) {
+                System.out.println("Ничего не найдено.");
+                return;
+            }
+            System.out.println("Треки: ");
+            for (int i = 0; i < current.size(); i++) {
+                System.out.println("    " + (i + 1) + ". " + current.get(i));
+            }
+            System.out.println("1 - По жанру");
+            System.out.println("2 - По исполнителю");
+            System.out.println("3 - Сортировка по длительности");
+            System.out.println("4 - Сортировка по исполнителю");
+            System.out.println("5 - Загрузить в очередь");
+            System.out.println("0 - Отмена");
+            System.out.print("> ");
 
-        TrackFilter source = new LibraryFilter(app.getLibrary());
-        TrackFilter filter = buildFilter(choice, source);
-        if (filter == null) return;
-
-
-        List<Track> result = filter.getTracks();
-
-        if (result.isEmpty()) {
-            System.out.println("Ничего не найдено.");
-            return;
-        }
-
-        System.out.println("Результат (" + result.size() + "):");
-        for (int i = 0; i < result.size(); i++) {
-            System.out.println((i + 1) + ". " + result.get(i));
-        }
-
-        System.out.print("Загрузить результат в очередь? (д/н): ");
-        if (scanner.nextLine().trim().equalsIgnoreCase("д")) {
-            app.getPlayer().setQueue(result);
-            System.out.println("Очередь загружена: " + result.size() + " треков.");
-        }
-    }
-
-    private TrackFilter buildFilter(String choice, TrackFilter source) {
-        switch (choice) {
-            case "1":
-                System.out.print("Жанр: ");
-                return new GenreFilter(source, scanner.nextLine().trim());
-            case "2":
-                System.out.print("Исполнитель: ");
-                return new ArtistFilter(source, scanner.nextLine().trim());
-            case "3":
-                return new SortByDurationFilter(source);
-            case "4":
-                return new SortByArtistFilter(source);
-            default:
-                System.out.println("Неизвестная команда.");
-                return null;
+            String choice = scanner.nextLine().trim();
+            switch (choice) {
+                case "1":
+                    System.out.print("Жанр: ");
+                    filter = new GenreFilter(filter, scanner.nextLine().trim());
+                    break;
+                case "2":
+                    System.out.print("Исполнитель: ");
+                    filter = new ArtistFilter(filter, scanner.nextLine().trim());
+                    break;
+                case "3":
+                    filter = new SortByDurationFilter(filter);
+                    break;
+                case "4":
+                    filter = new SortByArtistFilter(filter);
+                    break;
+                case "5":
+                    app.getPlayer().setQueue(current);
+                    System.out.println("Очередь загружена: " + current.size() + " треков.");
+                    filtering = false;
+                    break;
+                case "0":
+                    return;
+                default:
+                    System.out.println("Неизвестная команда.");
+            }
         }
     }
 }
